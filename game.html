@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tebak Angka</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .game-container {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      margin-bottom: 10px;
+      color: #333;
+    }
+    p {
+      margin: 10px 0;
+      color: #555;
+    }
+    input[type="number"] {
+      padding: 10px;
+      font-size: 18px;
+      width: 100%;
+      margin: 10px 0;
+      border: 2px solid #4facfe;
+      border-radius: 8px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4facfe;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #00c6ff;
+    }
+    .message {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    .success {
+      color: green;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div class="game-container">
+    <h1>Tebak Angka!</h1>
+    <p>Saya menyimpan angka antara <strong>1 - 100</strong>. Bisakah kamu menebaknya?</p>
+    <input type="number" id="guessInput" placeholder="Masukkan tebakan kamu" min="1" max="100">
+    <button onclick="checkGuess()">Tebak!</button>
+    <p class="message" id="message"></p>
+    <button onclick="resetGame()">Main Lagi</button>
+  </div>
+
+  <script>
+    let randomNumber = Math.floor(Math.random() * 100) + 1;
+    let attempts = 0;
+
+    function checkGuess() {
+      const guess = Number(document.getElementById("guessInput").value);
+      const message = document.getElementById("message");
+
+      if (!guess || guess < 1 || guess > 100) {
+        message.textContent = "Masukkan angka antara 1 dan 100.";
+        message.className = "message error";
+        return;
+      }
+
+      attempts++;
+
+      if (guess === randomNumber) {
+        message.textContent = `🎉 Benar! Angkanya adalah ${randomNumber}. Tebakan kamu: ${attempts}x`;
+        message.className = "message success";
+      } else if (guess < randomNumber) {
+        message.textContent = "Terlalu rendah! Coba angka yang lebih besar.";
+        message.className = "message error";
+      } else {
+        message.textContent = "Terlalu tinggi! Coba angka yang lebih kecil.";
+        message.className = "message error";
+      }
+    }
+
+    function resetGame() {
+      randomNumber = Math.floor(Math.random() * 100) + 1;
+      attempts = 0;
+      document.getElementById("guessInput").value = "";
+      document.getElementById("message").textContent = "";
+      document.getElementById("message").className = "message";
+    }
+  </script>
+</body>
+</html>
